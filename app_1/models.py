@@ -5,16 +5,13 @@ import datetime
 class Client(models.Model):
     name = models.CharField(blank=True, null=True, max_length=50, verbose_name='Имя')
     tel_number = models.CharField(blank=True, null=True, max_length=11, verbose_name='Тел.')
-    email = models.EmailField(blank=True, null=True, max_length=50, verbose_name='Почта')
-    monthly_payment = models.PositiveIntegerField(blank=True, null=True, verbose_name='Ежемесячная оплата')
-    address = models.ForeignKey("Address", on_delete=models.DO_NOTHING, verbose_name='Адрес')
-    kofa = models.ForeignKey("KindOfActivity", on_delete=models.DO_NOTHING, verbose_name='Вид деятельности')    
+    email = models.EmailField(blank=True, null=True, max_length=50, verbose_name='Почта')    
 
     class Meta:
         db_table = 'client'
-        verbose_name = 'клиент'
-        verbose_name_plural = 'клиенты'
-        ordering = ['-kofa_id']
+        verbose_name = 'Клиент'
+        verbose_name_plural = 'Клиенты'
+        ordering = ['name']
     
     def __str__(self):
         return f'{self.name} - {self.tel_number} - {self.address_id} - {self.kofa_id}'
@@ -22,8 +19,11 @@ class Client(models.Model):
 # Adresses
 class Address(models.Model):
     city = models.CharField(blank=True, null=True, max_length=50, verbose_name='Город')
-    street = models.CharField(blank=True, null=True, unique=True, max_length=100, verbose_name='Улица')
-    
+    street = models.CharField(blank=True, null=True, max_length=100, verbose_name='Улица')
+    kofa = models.ForeignKey("KindOfActivity", on_delete=models.DO_NOTHING, verbose_name='Вид деятельности')
+    client = models.ForeignKey("Client", on_delete=models.DO_NOTHING, verbose_name='Клиент')
+    contract = models.ForeignKey("Contract", on_delete=models.DO_NOTHING, verbose_name='Договор')
+
     class Meta:
         db_table = 'address'
         verbose_name = 'Адрес'
@@ -32,7 +32,22 @@ class Address(models.Model):
     
     def __str__(self):
         return f'{self.city},{self.street}'
+
+# Contract
+class Contract(models.Model):
+    create_date = models.DateField(auto_now=False, auto_now_add=False, blank=True, null=True, verbose_name='Дата заключения')
+    end_date = models.DateField(auto_now=False, auto_now_add=False, blank=True, null=True, verbose_name='Дата окончания')
+    desc = models.CharField(blank=True, null=True, max_length=50, verbose_name='Коментарий')
+
+    class Meta:
+        db_table = 'contract'
+        verbose_name = 'Договор'
+        verbose_name_plural = 'Договора'
+        ordering = ['create_date']
     
+    def __str__(self):
+        return f'{self.desc}'
+
 # Kind_of_activity Clients
 class KindOfActivity(models.Model):
     kofa = models.CharField(blank=True, null=True, unique=True, max_length=50, verbose_name='Вид деятельности')
@@ -49,34 +64,42 @@ class KindOfActivity(models.Model):
 # Terminals
 class Terminals(models.Model):
     term_numb = models.CharField(blank=True, null=True, unique=True, max_length=50, verbose_name='Номер терминала')
-    client = models.ForeignKey("Client", on_delete=models.DO_NOTHING, verbose_name='Клиент')
+    address = models.ForeignKey("Address", on_delete=models.DO_NOTHING, verbose_name='Адрес')
     
     class Meta:
         db_table = 'terminals'
         verbose_name = 'Терминал'
         verbose_name_plural = 'Терминалы'
-        ordering = ['client_id']
+        ordering = ['term_numb']
     
     def __str__(self):
-        return f'{self.term_numb} - {self.client_id}'
+        return f'{self.term_numb} - {self.address}'
 
-   
+
+# Cashboxes Name 
+class CashbName(models.Model):
+    cashb_name = models.CharField(blank=True, null=True, max_length=50, verbose_name='Модель кассы')
+
+    class Meta:
+        db_table = 'cashb_names'
+        verbose_name = 'Кассы (модели)'
+        verbose_name_plural = 'Кассы (модели)'
+        ordering = ['cashb_name']
+    
+    def __str__(self):
+        return f'{self.cashb_name}'
+
+
+
 # Cashboxes
 class Cashboxes(models.Model):
   
-    CASHB_NAME = (
-        ('Merkury_115F','Merkury-115F'),
-        ('Merkury_185F','Merkury-185F'),
-        ('SHTRIX_M','SHTRIX-M'),
-        ('ATOL','Atol'),
-    )
-
     reg_date = models.DateField(auto_now=False, auto_now_add=False, verbose_name='Дата регистрации')
     end_date = models.DateField(null=True, blank=True, auto_now=False, auto_now_add=False, verbose_name='Дата окончания')
-    cashb_name = models.CharField(blank=True, null=True, choices=CASHB_NAME, max_length=50, verbose_name='Модель кассы')
+    cashb_name = models.ForeignKey("CashbName", on_delete=models.DO_NOTHING, verbose_name='Модель кассы')
     ident_numb = models.CharField(blank=True, null=True, unique=True, max_length=50, verbose_name='Номер кассы')
     iep = models.ForeignKey("IndEntr", on_delete=models.DO_NOTHING, verbose_name='ИП')
-    client = models.ForeignKey("Client", on_delete=models.DO_NOTHING, verbose_name='Клиент')
+    address = models.ForeignKey("Address", on_delete=models.DO_NOTHING, verbose_name='Адрес')
 
     def save(self, *args, **kwargs):
         self.end_date = self.reg_date + datetime.timedelta(days=330)
@@ -154,7 +177,7 @@ class IndEntrInfo(models.Model):
         ordering = ['bank']
 
     def __str__(self):
-        return f'{self.iep_id} - {self.bank}'
+        return f'{self.iep} - {self.bank}'
 
 
 

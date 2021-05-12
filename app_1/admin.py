@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app_1.models import Client, Address, Cashboxes, Terminals, KindOfActivity, IndEntr, IndEntrInfo
+from app_1.models import Client, Address, Cashboxes, Terminals, KindOfActivity, IndEntr, IndEntrInfo, Contract, CashbName
 from import_export.admin import ImportExportModelAdmin
 
 
@@ -7,25 +7,39 @@ from import_export.admin import ImportExportModelAdmin
 @admin.register(Client)
 class ClientAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ["name", "tel_number"]
-    autocomplete_fields = ["kofa", "address"]
+    
 
 @admin.register(Address)
 class AddressAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ["city", "street"]
+    autocomplete_fields = ["client", "kofa", "contract"]
+
 
 @admin.register(Cashboxes)
 class CashboxesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ["cashb_name", "ident_numb"]
-    autocomplete_fields = ["iep", "client"]
+    autocomplete_fields = ["iep", "address", "cashb_name"]
+    
 
 @admin.register(Terminals)
 class TerminalsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ["term_numb"]
-    autocomplete_fields = ["client"]
+    autocomplete_fields = ["address"]
+    
+
+@admin.register(Contract)
+class ContractAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    search_fields = ["desc"]
+
 
 @admin.register(KindOfActivity)
 class KindOfActivityAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ["kofa"]
+
+
+@admin.register(CashbName)
+class CashbNameAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    search_fields = ["cashb_name"]    
 
 
 @admin.register(IndEntr)
@@ -37,8 +51,6 @@ class IndEntrAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 class IndEntrInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ["iep__full_name"]
     autocomplete_fields = ["iep"]
-
-
 
 # admin.site.register(Address)
 # admin.site.register(Cashboxes)

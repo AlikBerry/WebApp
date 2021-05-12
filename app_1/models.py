@@ -120,8 +120,11 @@ class Cashboxes(models.Model):
 class IndEntr(models.Model):
 
     TYPE_OF_ACTIVITY = (
-        ('SOLDAT', 'Soldat'),
-        ('CHISTIY','Chistiy'),
+        ('ОДИНОЧКА', 'Одиночка'),
+        ('ЦВЕТЫ','Цветы'),
+        ('СМЦ','СМЦ'),
+        ('СОЛДАТ','Солдат'),
+        ('ЦВЕТЫ СОЛДАТ','Цветы солдат'),
     )
 
     full_name = models.CharField(blank=True, null=True, max_length=50, verbose_name='Ф.И.О')
@@ -157,9 +160,12 @@ class IndEntrInfo(models.Model):
 
 
     BANK = (
-        ('Sberbank','Sberbank'),
-        ('Tinkoff','Tinkoff'),
-        ('Tochka','Tochka'),
+        ('СБЕРБАНК','Сбербанк'),
+        ('АЛЬФАБАНК','Альфа-Банк'),
+        ('ТОЧКАБАНК','Точка'),
+        ('РАЙФФАЙЗЕН','Райффайзен'),
+        ('ТИНЬКОФФ','Тинькофф'),
+        ('ВТБ','ВТБ'),
     )
     
     create_date = models.DateField(blank=True, null=True, auto_now=False, auto_now_add=False, verbose_name='Дата создания')

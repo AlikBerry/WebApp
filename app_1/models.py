@@ -174,7 +174,7 @@ class IndEntrInfo(models.Model):
     bank = models.CharField(blank=True, null=True, choices=BANK, max_length=50, verbose_name='Банк')
     card = models.CharField(blank=True, null=True, max_length=50, verbose_name='Карта')
     codeword = models.CharField(blank=True, null=True, max_length=50, verbose_name='Кодовое слово')
-    iep = models.ForeignKey("IndEntr", on_delete=models.DO_NOTHING, verbose_name='ИП')
+    iep = models.ForeignKey("IndEntr", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='ИП')
 
     class Meta:
         db_table = 'ind_entr_info'

@@ -6,23 +6,27 @@ from import_export.admin import ImportExportModelAdmin
 
 @admin.register(Client)
 class ClientAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ["name", "tel_number", "email"]
     search_fields = ["name", "tel_number"]
     
 
 @admin.register(Address)
 class AddressAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ["city", "street", "kofa", "client", "contract"]
     search_fields = ["city", "street"]
     autocomplete_fields = ["client", "kofa", "contract"]
 
 
 @admin.register(Cashboxes)
 class CashboxesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ["reg_date", "end_date", "cashb_name", "ident_numb", "iep", "address"]
     search_fields = ["cashb_name", "ident_numb"]
     autocomplete_fields = ["iep", "address", "cashb_name"]
     
 
 @admin.register(Terminals)
 class TerminalsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ["term_numb", "address"]
     search_fields = ["term_numb"]
     autocomplete_fields = ["address"]
     
@@ -39,6 +43,7 @@ class KindOfActivityAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 @admin.register(CashbName)
 class CashbNameAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ["cashb_name"]
     search_fields = ["cashb_name"]    
 
 

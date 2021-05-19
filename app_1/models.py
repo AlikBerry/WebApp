@@ -14,17 +14,16 @@ class Client(models.Model):
         verbose_name_plural = 'Клиенты'
         ordering = ['name']
     
-    def __str__(self):
-        return f'{self.name} - {self.tel_number} - {self.address_id} - {self.kofa_id}'
+    
         
 # Adresses
 class Address(models.Model):
 
     city = models.CharField(blank=True, null=True, max_length=50, verbose_name='Город')
     street = models.CharField(blank=True, null=True, max_length=100, verbose_name='Улица')
-    kofa = models.ForeignKey("KindOfActivity", on_delete=models.DO_NOTHING, verbose_name='Вид деятельности')
-    client = models.ForeignKey("Client", on_delete=models.DO_NOTHING, verbose_name='Клиент')
-    contract = models.ForeignKey("Contract", on_delete=models.DO_NOTHING, verbose_name='Договор')
+    kofa = models.ForeignKey("KindOfActivity", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Вид деятельности')
+    client = models.ForeignKey("Client", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Клиент')
+    contract = models.ForeignKey("Contract", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Договор')
 
     class Meta:
         db_table = 'address'
@@ -48,8 +47,7 @@ class Contract(models.Model):
         verbose_name_plural = 'Договора'
         ordering = ['create_date']
     
-    def __str__(self):
-        return f'{self.desc}'
+
 
 # Kind_of_activity Clients
 class KindOfActivity(models.Model):
@@ -62,14 +60,13 @@ class KindOfActivity(models.Model):
         verbose_name_plural = 'Клиенты (виды деятельности клиентов)'
         ordering = ['kofa']
     
-    def __str__(self):
-        return f'{self.kofa}'
+    
 
 # Terminals
 class Terminals(models.Model):
 
     term_numb = models.CharField(blank=True, null=True, unique=True, max_length=50, verbose_name='Номер терминала')
-    address = models.ForeignKey("Address", on_delete=models.DO_NOTHING, verbose_name='Адрес')
+    address = models.ForeignKey("Address", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Адрес')
     
     class Meta:
         db_table = 'terminals'
@@ -77,8 +74,7 @@ class Terminals(models.Model):
         verbose_name_plural = 'Терминалы'
         ordering = ['term_numb']
     
-    def __str__(self):
-        return f'{self.term_numb} - {self.address}'
+  
 
 
 # Cashboxes Name 
@@ -91,8 +87,7 @@ class CashbName(models.Model):
         verbose_name_plural = 'Кассы (модели)'
         ordering = ['cashb_name']
     
-    def __str__(self):
-        return f'{self.cashb_name}'
+   
 
 
 
@@ -101,7 +96,7 @@ class Cashboxes(models.Model):
   
     reg_date = models.DateField(auto_now=False, auto_now_add=False, verbose_name='Дата регистрации')
     end_date = models.DateField(null=True, blank=True, auto_now=False, auto_now_add=False, verbose_name='Дата окончания')
-    cashb_name = models.ForeignKey("CashbName", on_delete=models.DO_NOTHING, verbose_name='Модель кассы')
+    cashb_name = models.ForeignKey("CashbName", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Модель кассы')
     ident_numb = models.CharField(blank=True, null=True, unique=True, max_length=50, verbose_name='Номер кассы')
     iep = models.ForeignKey("IndEntr", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='ИП')
     address = models.ForeignKey("Address", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Адрес')
@@ -116,8 +111,7 @@ class Cashboxes(models.Model):
         verbose_name_plural = 'Кассы'
         ordering = ['cashb_name']
     
-    def __str__(self):
-        return f'{self.cashb_name} - {self.ident_numb} - {self.iep_id} - {self.client_id}'
+    
 
 
 
@@ -157,7 +151,7 @@ class IndEntr(models.Model):
         ordering = ['type_of_activity']
     
     def __str__(self):
-        return f'{self.full_name} - {self.type_of_activity}'
+        return f'{self.full_name}'
 
 
 # Individual Entrpreneur Info
@@ -187,8 +181,6 @@ class IndEntrInfo(models.Model):
         verbose_name_plural = 'ИП (Банки)'
         ordering = ['iep']
 
-    def __str__(self):
-        return f'{self.iep} - {self.bank}'
 
 
 

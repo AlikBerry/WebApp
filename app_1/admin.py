@@ -33,11 +33,13 @@ class TerminalsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 @admin.register(Contract)
 class ContractAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ["create_date", "end_date", "desc"]
     search_fields = ["desc"]
 
 
 @admin.register(KindOfActivity)
 class KindOfActivityAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ["kofa"]
     search_fields = ["kofa"]
 
 
@@ -49,11 +51,13 @@ class CashbNameAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 @admin.register(IndEntr)
 class IndEntrAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ["reg_date", "full_name", "ident_number", "type_of_activity", "tel_number", "channel"]
     search_fields = ["full_name", "ident_number"]
 
 
 @admin.register(IndEntrInfo)
 class IndEntrInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ["iep", "bank"]
     search_fields = ["iep__full_name"]
     autocomplete_fields = ["iep"]
 

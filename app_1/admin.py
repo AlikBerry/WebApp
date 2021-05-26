@@ -51,13 +51,13 @@ class CashbNameAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 @admin.register(IndEntr)
 class IndEntrAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ["reg_date", "full_name", "ident_number", "type_of_activity", "tel_number", "channel"]
+    list_display = ["reg_date", "full_name", "ident_number", "type_of_activity", "tel_number", "channel", "el_key", "status"]
     search_fields = ["full_name", "ident_number"]
 
 
 @admin.register(IndEntrInfo)
 class IndEntrInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ["iep", "bank"]
+    list_display = ["iep", "bank", "card"]
     search_fields = ["iep__full_name"]
     autocomplete_fields = ["iep"]
 

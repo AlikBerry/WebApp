@@ -5,7 +5,7 @@ import datetime
 class Client(models.Model):
 
     name = models.CharField(blank=True, null=True, max_length=50, verbose_name='Имя')
-    tel_number = models.CharField(blank=True, null=True, max_length=11, verbose_name='Тел.')
+    tel_number = models.CharField(blank=True, null=True, max_length=13, verbose_name='Тел.')
     email = models.EmailField(blank=True, null=True, max_length=50, verbose_name='Почта')    
 
     class Meta:
@@ -60,6 +60,8 @@ class KindOfActivity(models.Model):
         verbose_name_plural = 'Клиенты (виды деятельности клиентов)'
         ordering = ['kofa']
     
+    def __str__(self):
+        return f"{self.kofa}"
     
 
 # Terminals
@@ -79,7 +81,7 @@ class Terminals(models.Model):
 
 # Cashboxes Name 
 class CashbName(models.Model):
-    cashb_name = models.CharField(blank=True, null=True, max_length=50, verbose_name='Модель кассы')
+    cashb_name = models.CharField(blank=True, null=True, unique=True, max_length=50, verbose_name='Модель кассы')
 
     class Meta:
         db_table = 'cashb_names'
@@ -87,6 +89,8 @@ class CashbName(models.Model):
         verbose_name_plural = 'Кассы (модели)'
         ordering = ['cashb_name']
     
+    def __str__(self):
+        return f"{self.cashb_name}"
    
 
 

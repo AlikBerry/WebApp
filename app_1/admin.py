@@ -20,7 +20,7 @@ class AddressAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 @admin.register(Cashboxes)
 class CashboxesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ["reg_date", "end_date", "cashb_name", "ident_numb", "iep", "address"]
-    search_fields = ["cashb_name", "ident_numb"]
+    search_fields = ["cashb_name__cashb_name", "ident_numb", "address__street"]
     autocomplete_fields = ["iep", "address", "cashb_name"]
     
 

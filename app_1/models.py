@@ -50,6 +50,8 @@ class Contract(models.Model):
         verbose_name_plural = 'Договора'
         ordering = ['create_date']
     
+    def __str__(self):
+        return f"{self.desc}"
 
 
 # Kind_of_activity Clients
@@ -84,6 +86,7 @@ class Terminals(models.Model):
 
 # Cashboxes Name 
 class CashbName(models.Model):
+    
     cashb_name = models.CharField(blank=True, null=True, unique=True, max_length=50, verbose_name='Модель кассы')
 
     class Meta:

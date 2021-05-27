@@ -12,9 +12,9 @@ class ClientAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 @admin.register(Address)
 class AddressAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ["city", "street", "kofa", "client", "contract"]
+    list_display = ["city", "street", "kofa", "client"]
     search_fields = ["city", "street"]
-    autocomplete_fields = ["client", "kofa", "contract"]
+    autocomplete_fields = ["client", "kofa"]
 
 
 @admin.register(Cashboxes)
@@ -33,8 +33,9 @@ class TerminalsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 @admin.register(Contract)
 class ContractAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ["create_date", "end_date", "desc"]
+    list_display = ["create_date", "end_date", "desc", "address"]
     search_fields = ["desc"]
+    autocomplete_fields = ["address"]
 
 
 @admin.register(KindOfActivity)

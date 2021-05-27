@@ -26,7 +26,6 @@ class Address(models.Model):
     street = models.CharField(blank=True, null=True, max_length=100, verbose_name='Улица')
     kofa = models.ForeignKey("KindOfActivity", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Вид деятельности')
     client = models.ForeignKey("Client", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Клиент')
-    contract = models.ForeignKey("Contract", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Договор')
 
     class Meta:
         db_table = 'address'
@@ -43,6 +42,7 @@ class Contract(models.Model):
     create_date = models.DateField(auto_now=False, auto_now_add=False, blank=True, null=True, verbose_name='Дата заключения')
     end_date = models.DateField(auto_now=False, auto_now_add=False, blank=True, null=True, verbose_name='Дата окончания')
     desc = models.CharField(blank=True, null=True, max_length=50, verbose_name='Коментарий')
+    address = models.ForeignKey("Address", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Адрес')
 
     class Meta:
         db_table = 'contract'

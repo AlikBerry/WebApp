@@ -19,8 +19,7 @@ class Transacions(models.Model):
         db_table = 'transactions'
         verbose_name = 'Транзакции'
         verbose_name_plural = 'Транзакции'
-        ordering = ['create_date']
+        ordering = ['-create_date']
     
-    def __str__(self):
-        return f'{self.create_date} - {self.incoming} - {self.expense} - {self.desc}'
+    
 

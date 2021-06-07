@@ -121,8 +121,8 @@ class Cashboxes(models.Model):
         verbose_name_plural = 'Кассы'
         ordering = ['cashb_name']
     
-    
-
+    def __str__(self):
+        return f"{self.address}"
 
 
 # Individual Entrpreneur
@@ -191,7 +191,6 @@ class IndEntrInfo(models.Model):
         verbose_name_plural = 'ИП (Банки)'
         ordering = ['iep']
 
-
-
-
+    def __str__(self):
+        return f"{self.iep} - {self.bank}"
 

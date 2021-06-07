@@ -22,5 +22,6 @@ class Transacions(models.Model):
         verbose_name_plural = 'Транзакции'
         ordering = ['-create_date']
     
-    
+    def __str__(self):
+        return f"{self.desc}"
 

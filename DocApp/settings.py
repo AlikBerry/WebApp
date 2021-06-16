@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'app_1',
     'app_2',
     'import_export',
+    'rangefilter',
+    'csp',
     
 ]
 

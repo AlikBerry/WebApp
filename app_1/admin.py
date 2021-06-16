@@ -66,6 +66,7 @@ class CashbNameAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 class IndEntrAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ["reg_date", "full_name", "ident_number", "type_of_activity", "tel_number", "channel", "el_key", "status"]
     search_fields = ["full_name", "ident_number"]
+    list_filter = ("type_of_activity", "status")
 
 
 @admin.register(IndEntrInfo)
@@ -73,6 +74,7 @@ class IndEntrInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ["iep", "bank", "card"]
     search_fields = ["iep__full_name"]
     autocomplete_fields = ["iep"]
+    list_filter = ("bank",)
 
 # admin.site.register(Address)
 # admin.site.register(Cashboxes)

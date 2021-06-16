@@ -1,27 +1,40 @@
 from django.contrib import admin
-from app_1.models import Client, Address, Cashboxes, Terminals, KindOfActivity, IndEntr, IndEntrInfo, Contract, CashbName
+from app_1.models import Client, ClientInfo, Address, Cashboxes, Terminals, KindOfActivity, IndEntr, IndEntrInfo, Contract, CashbName
 from import_export.admin import ImportExportModelAdmin
+
+
+
+
+
 
 
 
 @admin.register(Client)
 class ClientAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ["address", "cashbox", "kofa", "client", "contract"]
+    search_fields = ["address__street", "cashbox__ident_numb"]
+    autocomplete_fields = ["kofa", "address", "cashbox", "client"]
+    list_filter = ("kofa",)
+
+
+@admin.register(ClientInfo)
+class ClientInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ["name", "tel_number", "email"]
     search_fields = ["name", "tel_number"]
     
 
 @admin.register(Address)
 class AddressAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ["city", "street", "kofa", "client"]
+    list_display = ["city", "street"]
     search_fields = ["city", "street"]
-    autocomplete_fields = ["client", "kofa"]
 
 
 @admin.register(Cashboxes)
 class CashboxesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ["reg_date", "end_date", "cashb_name", "ident_numb", "iep", "address"]
-    search_fields = ["cashb_name__cashb_name", "ident_numb", "address__street"]
-    autocomplete_fields = ["iep", "address", "cashb_name"]
+    list_display = ["reg_date", "end_date", "cashb_name", "ident_numb", "iep"]
+    search_fields = ["cashb_name__cashb_name", "ident_numb", "iep__full_name"]
+    autocomplete_fields = ["iep", "cashb_name"]
+    list_filter = ("iep",)
     
 
 @admin.register(Terminals)
@@ -33,9 +46,8 @@ class TerminalsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 @admin.register(Contract)
 class ContractAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ["create_date", "end_date", "desc", "address"]
+    list_display = ["create_date", "end_date", "desc"]
     search_fields = ["desc"]
-    autocomplete_fields = ["address"]
 
 
 @admin.register(KindOfActivity)

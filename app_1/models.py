@@ -4,28 +4,40 @@ import datetime
 #  CLients
 class Client(models.Model):
 
-    name = models.CharField(blank=True, null=True, max_length=50, verbose_name='Имя')
-    tel_number = models.CharField(blank=True, null=True, max_length=13, verbose_name='Тел.')
-    email = models.EmailField(blank=True, null=True, max_length=50, verbose_name='Почта')    
+    client = models.ForeignKey("ClientInfo", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Имя клиента') 
+    kofa = models.ForeignKey("KindOfActivity", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Вид деятельности')
+    address = models.ForeignKey("Address", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Адрес')
+    cashbox = models.ForeignKey("Cashboxes", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Касса')
+    contract = models.ForeignKey("Contract", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Договор')
 
     class Meta:
         db_table = 'client'
         verbose_name = 'Клиент'
         verbose_name_plural = 'Клиенты'
-        ordering = ['name']
+        ordering = ['kofa']
 
-    def __str__(self):
-        return f"{self.name}"
-    
-    
+# ClientInfo 
+class ClientInfo(models.Model):
+
+    name = models.CharField(blank=True, null=True, max_length=155, verbose_name='Имя')
+    tel_number = models.CharField(blank=True, null=True, max_length=13, verbose_name='Тел.')
+    email = models.EmailField(blank=True, null=True, max_length=50, verbose_name='Почта')
+
+    class Meta:
+        db_table = 'client_info'
+        verbose_name = 'Клиент (имя,тел.,почта)'
+        verbose_name_plural = 'Клиент (имя,тел.,почта)'
+        ordering = ['name']
         
+    def __str__(self):
+        return f"{self.name} - {self.tel_number}"
+
+
 # Adresses
 class Address(models.Model):
 
     city = models.CharField(blank=True, null=True, max_length=50, verbose_name='Город')
-    street = models.CharField(blank=True, null=True, max_length=100, verbose_name='Улица')
-    kofa = models.ForeignKey("KindOfActivity", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Вид деятельности')
-    client = models.ForeignKey("Client", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Клиент')
+    street = models.CharField(blank=True, null=True, max_length=100, unique=True, verbose_name='Улица')
 
     class Meta:
         db_table = 'address'
@@ -41,8 +53,7 @@ class Contract(models.Model):
 
     create_date = models.DateField(auto_now=False, auto_now_add=False, blank=True, null=True, verbose_name='Дата заключения')
     end_date = models.DateField(auto_now=False, auto_now_add=False, blank=True, null=True, verbose_name='Дата окончания')
-    desc = models.CharField(blank=True, null=True, max_length=50, verbose_name='Коментарий')
-    address = models.ForeignKey("Address", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Адрес')
+    desc = models.CharField(blank=True, null=True, max_length=155, verbose_name='Коментарий')
 
     class Meta:
         db_table = 'contract'
@@ -108,8 +119,7 @@ class Cashboxes(models.Model):
     end_date = models.DateField(null=True, blank=True, auto_now=False, auto_now_add=False, verbose_name='Дата окончания')
     cashb_name = models.ForeignKey("CashbName", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Модель кассы')
     ident_numb = models.CharField(blank=True, null=True, unique=True, max_length=50, verbose_name='Номер кассы')
-    iep = models.ForeignKey("IndEntr", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='ИП')
-    address = models.ForeignKey("Address", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Адрес')
+    iep = models.ForeignKey("IndEntr", blank=True, null=True, on_delete=models.SET_NULL, verbose_name='ИП')
 
     def save(self, *args, **kwargs):
         self.end_date = self.reg_date + datetime.timedelta(days=330)
@@ -122,21 +132,21 @@ class Cashboxes(models.Model):
         ordering = ['cashb_name']
     
     def __str__(self):
-        return f"{self.address}"
+        return f"{self.ident_numb} - {self.cashb_name} - {self.iep}"
 
 
 # Individual Entrpreneur
 class IndEntr(models.Model):
 
     TYPE_OF_ACTIVITY = (
-        ('ОДИНОЧКА', 'Одиночка'),
-        ('ЦВЕТЫ','Цветы'),
+        ('Одиночка', 'Одиночка'),
+        ('Цветы','Цветы'),
         ('СМЦ','СМЦ'),
-        ('СОЛДАТ','Солдат'),
-        ('ЦВЕТЫ СОЛДАТ','Цветы солдат'),
+        ('Солдат','Солдат'),
+        ('Цветы солдат','Цветы солдат'),
     )
 
-    full_name = models.CharField(blank=True, null=True, max_length=50, verbose_name='Ф.И.О')
+    full_name = models.CharField(blank=True, null=True, unique=True, max_length=50, verbose_name='Ф.И.О')
     birth_date = models.DateField(auto_now=False, auto_now_add=False, verbose_name='Дата рождения')
     address = models.CharField(blank=True, null=True, max_length=100, verbose_name='Адрес регистрации')
     ident_number = models.CharField(blank=True, null=True, max_length=12, verbose_name='ИНН')
@@ -169,11 +179,11 @@ class IndEntrInfo(models.Model):
 
 
     BANK = (
-        ('СБЕРБАНК','Сбербанк'),
-        ('АЛЬФАБАНК','Альфа-Банк'),
-        ('ТОЧКАБАНК','Точка'),
-        ('РАЙФФАЙЗЕН','Райффайзен'),
-        ('ТИНЬКОФФ','Тинькофф'),
+        ('Сбербанк','Сбербанк'),
+        ('Альфа-Банк','Альфа-Банк'),
+        ('Точка','Точка'),
+        ('Райффайзен','Райффайзен'),
+        ('Тинькофф','Тинькофф'),
         ('ВТБ','ВТБ'),
     )
     

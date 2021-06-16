@@ -10,7 +10,7 @@ class Transacions(models.Model):
     incoming = models.PositiveIntegerField(blank=True, null=True, default=0, verbose_name='Приход')
     expense = models.PositiveIntegerField(blank=True, null=True, default=0, verbose_name='Расход')
     balance = models.IntegerField(blank=True, null=True, default=0, verbose_name='Баланс')
-    desc = models.CharField(blank=True, null=True, max_length=50, verbose_name='Коментарий')
+    desc = models.CharField(blank=True, null=True, max_length=255, verbose_name='Коментарий')
 
     def save(self, *args, **kwargs):
         self.balance = self.incoming - self.expense

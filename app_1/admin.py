@@ -34,7 +34,7 @@ class CashboxesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ["reg_date", "end_date", "cashb_name", "ident_numb", "iep"]
     search_fields = ["cashb_name__cashb_name", "ident_numb", "iep__full_name"]
     autocomplete_fields = ["iep", "cashb_name"]
-    list_filter = ("iep",)
+    
     
 
 @admin.register(Terminals)

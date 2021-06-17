@@ -4,11 +4,11 @@ import datetime
 #  CLients
 class Client(models.Model):
 
-    client = models.ForeignKey("ClientInfo", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Имя клиента') 
-    kofa = models.ForeignKey("KindOfActivity", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Вид деятельности')
-    address = models.ForeignKey("Address", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Адрес')
-    cashbox = models.ForeignKey("Cashboxes", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Касса')
-    contract = models.ForeignKey("Contract", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Договор')
+    client = models.ForeignKey("ClientInfo", blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Имя клиента') 
+    kofa = models.ForeignKey("KindOfActivity", blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Вид деятельности')
+    address = models.ForeignKey("Address", blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Адрес')
+    cashbox = models.ForeignKey("Cashboxes", blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Касса')
+    contract = models.ForeignKey("Contract", blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Договор')
 
     class Meta:
         db_table = 'client'
@@ -84,7 +84,6 @@ class KindOfActivity(models.Model):
 class Terminals(models.Model):
 
     term_numb = models.CharField(blank=True, null=True, unique=True, max_length=50, verbose_name='Номер терминала')
-    address = models.ForeignKey("Address", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Адрес')
     
     class Meta:
         db_table = 'terminals'
@@ -117,7 +116,7 @@ class Cashboxes(models.Model):
   
     reg_date = models.DateField(auto_now=False, auto_now_add=False, verbose_name='Дата регистрации')
     end_date = models.DateField(null=True, blank=True, auto_now=False, auto_now_add=False, verbose_name='Дата окончания')
-    cashb_name = models.ForeignKey("CashbName", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Модель кассы')
+    cashb_name = models.ForeignKey("CashbName", blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Модель кассы')
     ident_numb = models.CharField(blank=True, null=True, unique=True, max_length=50, verbose_name='Номер кассы')
     iep = models.ForeignKey("IndEntr", blank=True, null=True, on_delete=models.SET_NULL, verbose_name='ИП')
 
@@ -193,7 +192,7 @@ class IndEntrInfo(models.Model):
     bank = models.CharField(blank=True, null=True, choices=BANK, max_length=50, verbose_name='Банк')
     card = models.CharField(blank=True, null=True, max_length=50, verbose_name='Карта')
     codeword = models.CharField(blank=True, null=True, max_length=50, verbose_name='Кодовое слово')
-    iep = models.ForeignKey("IndEntr", blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='ИП')
+    iep = models.ForeignKey("IndEntr", blank=True, null=True, on_delete=models.SET_NULL, verbose_name='ИП')
 
     class Meta:
         db_table = 'ind_entr_info'

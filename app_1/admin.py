@@ -39,9 +39,8 @@ class CashboxesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 @admin.register(Terminals)
 class TerminalsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ["term_numb", "address"]
+    list_display = ["term_numb"]
     search_fields = ["term_numb"]
-    autocomplete_fields = ["address"]
     
 
 @admin.register(Contract)

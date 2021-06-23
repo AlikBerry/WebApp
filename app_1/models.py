@@ -9,6 +9,7 @@ class Client(models.Model):
     address = models.ForeignKey("Address", blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Адрес')
     cashbox = models.ForeignKey("Cashboxes", blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Касса')
     contract = models.ForeignKey("Contract", blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Договор')
+    payment = models.IntegerField(blank=True, null=True, default=0, verbose_name='Оплата')
 
     class Meta:
         db_table = 'client'

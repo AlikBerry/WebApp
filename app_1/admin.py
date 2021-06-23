@@ -11,7 +11,7 @@ from import_export.admin import ImportExportModelAdmin
 
 @admin.register(Client)
 class ClientAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ["address", "cashbox", "kofa", "client", "contract"]
+    list_display = ["address", "cashbox", "kofa", "client", "contract", "payment"]
     search_fields = ["address__street", "cashbox__ident_numb"]
     autocomplete_fields = ["kofa", "address", "cashbox", "client"]
     list_filter = ("kofa",)

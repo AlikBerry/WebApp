@@ -1,5 +1,4 @@
 from django.db import models
-from app_1.models import Client
 from datetime import *
 
 # Create your models here.
